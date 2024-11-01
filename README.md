@@ -4,6 +4,7 @@
 
 ## Introduction
 One of our recent challenges was to create a highly available environment to host a WordPress multi-site application. By "highly available," we mean achieving at least 99.99% availability for the infrastructure components. This article covers the cloud architecture, Infrastructure as Code (IaC) configurations, and an example of deploying a custom theme using a CI/CD pipeline. All the code is available in this GitHub repository.
+![img_1.png](img_1.png)
 
 ## Cloud Architecture
 Since Azure is our main cloud provider and we needed specific control over our WordPress configuration, we decided to use Virtual Machine Scale Sets (VMSS) to run our application workload and Azure Database for MySQL - Flexible Server to host the database required for the installation. For file sharing between hosts, we chose Azure's native NFSv3 solution for storage accounts. This setup simplifies uploading WordPress themes during a CI/CD pipeline.
@@ -12,6 +13,7 @@ To expose the application, we chose Apache2 as the web server due to its speed, 
 
 ## Infrastructure Architecture
 User requests are served from Azure Front Door CDN if cached. If not, the backend configuration calls our Load Balancer (LB), which accepts only Azure Front Door IPs. The LB distributes traffic across VMs in the scale set, spread across multiple availability zones. The /var/www/html folder is an NFS share mounted from a zone-redundant storage account, ensuring consistent content delivery regardless of the host handling the request. Our Azure MySQL service, configured in high-availability mode, handles connections and queries from all VMs.
+![img.png](img.png)
 
 ## Terraform Configuration
 We use Terraform to create all infrastructure components. Below are some key configurations:
