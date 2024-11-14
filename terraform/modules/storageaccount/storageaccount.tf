@@ -39,10 +39,8 @@ resource "azurerm_storage_account" "storage_account" {
         for_each = lookup(var.blob_properties, "container_delete_retention_policy_days", []) != [] ? [1] : []
         content {
           days = var.blob_properties.container_delete_retention_policy_days
-
         }
       }
-
     }
   }
 }
@@ -53,6 +51,16 @@ resource "azurerm_storage_container" "container" {
   container_access_type = var.containers[count.index].container_access_type
 
   count = length(var.containers) > 0 ? length(var.containers) : 0
+  depends_on = [
+    azurerm_storage_account.storage_account
+  ]
+}
+
+resource "azurerm_storage_share" "share" {
+  count                 = 4
+  name                  = "blog_${element(["proleaguenetwork", "putttour", "slappoker", "str33t"], count.index)}"
+  storage_account_name  = azurerm_storage_account.storage_account.name
+  quota                 = 500 # Quota in GB for each drive
   depends_on = [
     azurerm_storage_account.storage_account
   ]

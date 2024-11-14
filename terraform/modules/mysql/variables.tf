@@ -12,7 +12,6 @@ variable "resource_mysql_name" {
   description = "Name of database resource mysql"
 }
 
-##### Database setup
 variable "database_name" {
   description = "Database name to create"
 }
@@ -38,7 +37,7 @@ variable "backup_retention_days" {
 }
 
 variable "geo_redundant_backup" {
-  description = "Enable/disable geo reduntant backup"
+  description = "Enable/disable geo redundant backup"
   default     = false
 }
 
@@ -48,10 +47,11 @@ variable "database_mysql_admin_username" {
 
 variable "database_mysql_admin_password" {
   description = "Database admin password"
+  default     = "Awvn==615@t0r0nt0"
 }
 
 variable "vm_nsg_whitelist_ips_ports" {
-  description = "List of ip's allowed to connect into database server."
+  description = "List of IPs allowed to connect into database server."
   default     = []
 }
 
@@ -61,7 +61,7 @@ variable "create_replica" {
 }
 
 variable "replica_database_sku" {
-  description = "Replica database sku if differente from the original one"
+  description = "Replica database SKU if different from the original one"
   type        = string
   default     = ""
 }
@@ -76,29 +76,31 @@ variable "tags" {
   type        = map(any)
   default     = {}
 }
+
 variable "virtual_network_id" {
-  description = "Vnet for the postgres server in case it will be internally linked"
+  description = "VNet for the MySQL server in case it will be internally linked"
   type        = string
   default     = "pg_vnet"
 }
 
 variable "subnet_id" {
-  description = "(Optional)Database subnet id to inject"
+  description = "(Optional) Database subnet ID to inject"
   type        = string
   default     = ""
 }
 
 variable "private_dns_zone_id" {
-  description = "(Optional) Database private dns zone to link"
+  description = "(Optional) Database private DNS zone to link"
   type        = string
   default     = ""
-
 }
+
 variable "iops" {
-  description = "Max Ios for the database server"
+  description = "Max IOPS for the database server"
   type        = string
   default     = "360"
 }
+
 variable "size_gb" {
   description = "Database server max size in GB"
   type        = string
@@ -110,7 +112,6 @@ variable "high_availability_enabled" {
   default     = false
 }
 
-
 variable "ha_mode" {
   description = "High availability mode"
   type        = string
@@ -118,20 +119,19 @@ variable "ha_mode" {
 }
 
 variable "mysql_zone" {
-  description = "Zone to place the mysql server"
+  description = "Zone to place the MySQL server"
   type        = string
   default     = "1"
-
 }
 
 variable "mysql_replica_zone" {
-  description = "Zone to place the mysql replica server(if exists)"
+  description = "Zone to place the MySQL replica server (if exists)"
   type        = string
   default     = "2"
-
 }
+
 variable "server_parameters" {
-  description = "Mysql server parameter"
+  description = "MySQL server parameters"
   type        = list(any)
   default     = []
 }

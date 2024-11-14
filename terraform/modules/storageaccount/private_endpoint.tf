@@ -1,6 +1,5 @@
-# #Criação do enpoint privado
+# #PLN endpoint private
 resource "azurerm_private_endpoint" "private_endpoint" {
-
   name                = "${var.storage_account_name}-private_endpoint-${var.subresource_names_private_endpoint[count.index]}"
   location            = var.region
   resource_group_name = var.resource_group
@@ -19,8 +18,6 @@ resource "azurerm_private_endpoint" "private_endpoint" {
       private_dns_zone_ids = var.name_private_link_ids
     }
   }
-
-
 
   tags = var.tags
 

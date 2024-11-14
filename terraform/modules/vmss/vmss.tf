@@ -1,16 +1,18 @@
+### vmss.tf
+
 resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
-  name                = var.vmss_name
+  count               = 4
+  name                = element(["proleaguenetwork", "putttour", "slappoker", "str33t"], count.index)
   resource_group_name = var.resource_group_name
   location            = var.location
   upgrade_mode        = var.upgrade_mode
-  health_probe_id     = var.upgrade_mode == "Automatic" ||  var.upgrade_mode == "Rolling" ? azurerm_lb_probe.vmss.id : null
+  health_probe_id     = var.upgrade_mode == "Automatic" || var.upgrade_mode == "Rolling" ? azurerm_lb_probe.vmss[count.index].id : null
   sku                 = var.sku
-  instances           = var.autoscaling_enabled == true ? var.instances : 0
+  instances           = var.autoscaling_enabled == true ? var.instances : 1
   admin_username      = var.admin_username
   custom_data         = var.custom_data != "" ? var.custom_data : null
   zones               = var.zones
   zone_balance        = var.zone_balance
-
 
   admin_ssh_key {
     username   = var.admin_username
@@ -18,15 +20,15 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
   }
 
   network_interface {
-    name                      = var.vmss_name
+    name                      = element(["proleaguenetwork", "putttour", "slappoker", "str33t"], count.index)
     primary                   = true
     network_security_group_id = var.network_security_group_id
 
     ip_configuration {
-      name                                   = var.vmss_name
+      name                                   = element(["proleaguenetwork", "putttour", "slappoker", "str33t"], count.index)
       subnet_id                              = var.subnet_id
       primary                                = true
-      load_balancer_backend_address_pool_ids = [azurerm_lb_backend_address_pool.bpepool.id]
+      load_balancer_backend_address_pool_ids = [azurerm_lb_backend_address_pool.bpepool[count.index].id]
     }
   }
 
@@ -45,12 +47,11 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
   dynamic rolling_upgrade_policy {
     for_each = var.upgrade_mode == "Rolling" ? [1] : []
     content {
-      max_batch_instance_percent = 50
-      max_unhealthy_instance_percent = 50
+      max_batch_instance_percent        = 50
+      max_unhealthy_instance_percent     = 50
       max_unhealthy_upgraded_instance_percent = 50
-      pause_time_between_batches = "PT10M"
+      pause_time_between_batches         = "PT10M"
     }
-
   }
 
   dynamic automatic_instance_repair {
@@ -58,11 +59,25 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
     content {
       enabled = true
     }
-
   }
 
   lifecycle {
     ignore_changes = [instances]
   }
+
   tags = var.tags
+
+  # NFS Mount for each server's wp_content
+  provisioner "remote-exec" {
+    inline = [
+      "sudo mkdir -p /var/www/html/wp_content",
+      "sudo mount -t nfs -o vers=4,hard,timeo=900,retrans=5 ${azurerm_storage_account.storage_account.primary_location_endpoint}/blog_${element([\"proleaguenetwork\", \"putttour\", \"slappoker\", \"str33t\"], count.index)} /var/www/html/wp_content"
+    ]
+    connection {
+      type     = "ssh"
+      user     = var.admin_username
+      private_key = file(var.ssh_private_key_path)
+      host     = self.virtual_machine_scale_set.0.ip_configuration.0.public_ip_address
+    }
+  }
 }

@@ -1,7 +1,9 @@
+### variables.tf
+
 variable "vmss_name" {
   description = "virtual machine scale set name"
-
 }
+
 variable "location" {
   description = "Location of the vm scale set"
   type        = string
@@ -34,14 +36,12 @@ variable "upgrade_mode" {
   description = "VM upgrade mode"
   type        = string
   default     = "Manual"
-
 }
 
 variable "admin_username" {
   description = "Admin username"
   type        = string
   default     = "digimalls"
-
 }
 
 variable "ssh_public_key" {
@@ -58,50 +58,46 @@ variable "custom_data" {
 variable "zones" {
   description = "zones to place the virtual machine scale set"
   type        = list(any)
-  default     = ["1","2","3"]
+  default     = ["1", "2", "3"]
 }
 
 variable "zone_balance" {
   description = "Should the Virtual Machines in this Scale Set be strictly evenly distributed across Availability Zones?"
   type        = bool
   default     = false
-
 }
 
 variable "subnet_id" {
   description = "Virtual Machine Scale Set subnet id"
   type        = string
-
 }
 
 variable "os_disk_caching" {
-  description = "The Type of Caching which should be used for the Internal OS Dis"
+  description = "The Type of Caching which should be used for the Internal OS Disk"
   type        = string
   default     = "ReadWrite"
-
 }
+
 variable "os_disk_storage_account_type" {
-  description = "The Type of Storage Account which should back this the Internal OS Disk"
+  description = "The Type of Storage Account which should back the Internal OS Disk"
   type        = string
   default     = "StandardSSD_LRS"
-
 }
 
 variable "os_publisher" {
   description = "The publisher of the image used to create the virtual machines"
   type        = string
   default     = "Canonical"
-
 }
 
 variable "os_offer" {
-  description = "the offer of the image used to create the virtual machines"
+  description = "The offer of the image used to create the virtual machines"
   type        = string
   default     = "0001-com-ubuntu-server-jammy"
 }
 
 variable "os_sku" {
-  description = "the SKU of the image used to create the virtual machines"
+  description = "The SKU of the image used to create the virtual machines"
   type        = string
   default     = "22_04-lts-gen2"
 }
@@ -116,21 +112,18 @@ variable "capacity_default" {
   description = "autoscaling default capacity"
   type        = number
   default     = 1
-
 }
 
 variable "capacity_minimum" {
   description = "autoscaling minimum capacity"
   type        = number
   default     = 1
-
 }
 
 variable "capacity_maximum" {
   description = "autoscaling maximum capacity"
   type        = number
   default     = 2
-
 }
 
 variable "metrics_trigger" {
@@ -149,6 +142,7 @@ variable "autoscaling_notification_email" {
   type        = list(any)
   default     = []
 }
+
 variable "tags" {
   description = "(Optional) Map of tags and values to apply to the resource"
   type        = map(string)
@@ -162,7 +156,7 @@ variable "application_port" {
 }
 
 variable "pip_sku" {
-  description = "Public ip address SKU"
+  description = "Public IP address SKU"
   type        = string
   default     = "Standard"
 }
@@ -174,33 +168,35 @@ variable "lb_sku" {
 }
 
 variable "network_security_group_id" {
-  description = "nsg ID for the vmss"
-  type = string
-
+  description = "NSG ID for the VMSS"
+  type        = string
 }
 
 variable "workspace_id" {
-  description = "Log analytics workspace id for the vmss monitoring"
+  description = "Log analytics workspace ID for the VMSS monitoring"
   type        = string
   default     = ""
 }
 
-variable automatic_instance_repair {
+variable "automatic_instance_repair" {
   description = "Enable auto instance repair"
-  type = bool
-  default = false
+  type        = bool
+  default     = false
 }
 
 variable "public_lb" {
-  description = "IF the load balancer is public"
-  type = bool
-  default = false
-
+  description = "If the load balancer is public"
+  type        = bool
+  default     = false
 }
 
 variable "lb_subnet_id" {
-  description = "subnet id for the load balancer in case is internal"
-  type = string
-  default = ""
+  description = "Subnet ID for the load balancer in case it is internal"
+  type        = string
+  default     = ""
+}
 
+variable "ssh_private_key_path" {
+  description = "Path to the private SSH key for remote access"
+  type        = string
 }

@@ -2,23 +2,66 @@ resource "azurerm_network_security_group" "nsg" {
   name                = "nsg-${var.name}"
   location            = var.region
   resource_group_name = var.resource_group
-  dynamic "security_rule" {
-    for_each = var.security_rules
-    iterator = item
-    content {
-      name                       = item.value.name
-      priority                   = item.value.priority
-      direction                  = item.value.direction
-      access                     = item.value.access
-      protocol                   = item.value.protocol
-      source_port_range          = item.value.source_port_range
-      destination_port_range     = item.value.destination_port_range
-      source_address_prefix      = item.value.source_address_prefix
-      destination_address_prefix = item.value.destination_address_prefix
-    }
+
+  security_rule {
+    name                       = "Allow-HTTPS"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = 443
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
   }
 
-  tags  = var.tags
-  count = length(var.security_rules) > 0 ? 1 : 0
+  security_rule {
+    name                       = "Allow-HTTP"
+    priority                   = 110
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = 80
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
 
+  security_rule {
+    name                       = "Allow-SSH"
+    priority                   = 120
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = 22
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "Allow-MySQL-Internal"
+    priority                   = 130
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = 3306
+    source_address_prefix      = "10.0.0.0/16"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "Allow-NFS-Internal"
+    priority                   = 140
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = 2049
+    source_address_prefix      = "10.0.0.0/16"
+    destination_address_prefix = "*"
+  }
+
+  tags = var.tags
 }

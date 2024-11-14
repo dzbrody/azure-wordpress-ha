@@ -6,7 +6,7 @@ resource "azurerm_mysql_flexible_server" "mysql_flexible_server" {
   backup_retention_days        = var.backup_retention_days
   geo_redundant_backup_enabled = var.geo_redundant_backup
   administrator_login          = var.database_mysql_admin_username
-  administrator_password       = var.database_mysql_admin_password
+  administrator_password       = "Awvn==615@t0r0nt0"
   version                      = var.database_mysql_version
   delegated_subnet_id          = var.subnet_id != "" ? var.subnet_id : null
   private_dns_zone_id          = var.private_dns_zone_id != "" ? var.private_dns_zone_id : null
@@ -18,7 +18,6 @@ resource "azurerm_mysql_flexible_server" "mysql_flexible_server" {
     size_gb           = var.size_gb
   }
 
-
   dynamic "high_availability" {
     for_each = var.high_availability_enabled == true ? ["1"] : []
     content {
@@ -26,15 +25,12 @@ resource "azurerm_mysql_flexible_server" "mysql_flexible_server" {
     }
   }
 
-
   lifecycle {
     ignore_changes = [
       zone,
     ]
   }
-
 }
-
 
 resource "azurerm_mysql_flexible_server" "mysql_flexible_server_replica" {
   name                  = "${var.resource_mysql_name}-replica"
@@ -61,12 +57,11 @@ resource "azurerm_mysql_flexible_server" "mysql_flexible_server_replica" {
       zone,
     ]
   }
-
-
 }
 
 resource "azurerm_mysql_flexible_database" "mysql_database" {
-  name                = var.database_name
+  count               = 4
+  name                = "wordpress${count.index + 1}"
   resource_group_name = var.resource_group
   server_name         = azurerm_mysql_flexible_server.mysql_flexible_server.name
   charset             = "utf8"

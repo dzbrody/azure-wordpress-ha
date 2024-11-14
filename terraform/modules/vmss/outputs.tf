@@ -1,3 +1,5 @@
+### outputs.tf
+
 output "lb_ip" {
-  value = azurerm_public_ip.vmss.ip_address
+  value = [for public_ip in azurerm_public_ip.vmss : public_ip.ip_address]
 }

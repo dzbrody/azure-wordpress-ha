@@ -1,3 +1,1 @@
-variable "database_mysql_admin_password" {
-  description = "Database admin password"
-}
+# Removed unnecessary variable for password as it's now hardcoded

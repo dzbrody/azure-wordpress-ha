@@ -35,9 +35,10 @@ variable "public_network_access_enabled" {
   description = "Allow public access to blobs inside the account"
   default     = true
 }
+
 variable "account_kind" {
   description = "Kind of account."
-  default     = "Storage"
+  default     = "StorageV2"
 }
 
 variable "is_hns_enabled" {
@@ -56,7 +57,6 @@ variable "tags" {
   default     = {}
 }
 
-
 variable "network_rules" {
   description = "List of network rules for the storage account"
   type        = list(any)
@@ -67,21 +67,18 @@ variable "nfsv3_enabled" {
   description = "enable/disable nfs3 support to storage account"
   type        = bool
   default     = false
-
 }
 
 variable "min_tls_version" {
   description = "Min tls version for storage accounts"
   type        = string
   default     = "TLS1_2"
-
 }
 
 variable "enable_lock" {
   description = "Choose to lock the storage account for deletion"
   type        = bool
   default     = false
-
 }
 
 variable "subnet_id_private_endpoint" {
@@ -112,11 +109,10 @@ variable "blob_properties" {
   description = "Properties to configure a blob storage account"
   type        = any
   default     = {}
-
 }
 
 variable "access_tier" {
-  description = " Defines the access tier for BlobStorage, FileStorage and StorageV2 accounts"
-  type = string
-  default = "Hot"
+  description = "Defines the access tier for BlobStorage, FileStorage, and StorageV2 accounts"
+  type        = string
+  default     = "Hot"
 }
