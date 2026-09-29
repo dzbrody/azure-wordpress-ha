@@ -307,3 +307,9 @@ define( 'MYSQL_CLIENT_FLAGS', MYSQLI_CLIENT_SSL );
 
 References:
 [Scalable and secure WordPress on Azure] (https://learn.microsoft.com/en-us/azure/architecture/example-scenario/infrastructure/wordpress)
+
+## Work with me
+
+Daniel Brody is a fractional CTO for founders, CEOs, investors, and PE boards.
+
+[Book a Fractional CTO call](https://ctorescues.com/contact/) · [LinkedIn](https://www.linkedin.com/in/danielbrody/) · [GitHub profile](https://github.com/dzbrody)
