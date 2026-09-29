@@ -313,3 +313,8 @@ References:
 Daniel Brody is a fractional CTO for founders, CEOs, investors, and PE boards.
 
 [Book a Fractional CTO call](https://ctorescues.com/contact/) · [LinkedIn](https://www.linkedin.com/in/danielbrody/) · [GitHub profile](https://github.com/dzbrody)
+
+
+---
+**CITO for Hire** — design-it · sell-it · build-it · implement-it
+[ctorescues.com](https://ctorescues.com) · [Facebook](https://www.facebook.com/people/CTORescues/100067231596849/) · [GitHub](https://github.com/dzbrody) · [LinkedIn](https://www.linkedin.com/in/danielbrody/)
